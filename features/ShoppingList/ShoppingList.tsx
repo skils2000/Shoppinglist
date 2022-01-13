@@ -5,16 +5,19 @@ import { ListElement } from "./components/Listelement";
 import AsyncStorage from "@react-native-community/async-storage";
 
 export const ShoppingList: React.FC = () => {
+  // Списки для списка покупок
   const [toBuyList, setToBuyList] = useState<string[]>([]);
   const [boughtList, setBoughtList] = useState<boolean[]>([]);
+  // Переменная для поля ввода
   const [text, onChangeText] = useState("");
+  // Костыль
   const [thirdLeg, setThirdLeg] = useState(false);
 
   //localStorage.setItem("accessToken", toBuy);
   //accessToken = localStorage.getItem("accessToken");
 
   
-
+  
   function addInList(){
     setToBuyList([...toBuyList, text]);
     setBoughtList([...boughtList, false]);
@@ -25,14 +28,6 @@ export const ShoppingList: React.FC = () => {
     onChangeText("");
   };
 
-  function toggle(index) {
-    console.log("in toggle");
-    
-    boughtList[index]= !boughtList[index];
-    AsyncStorage.setItem("boughtList", JSON.stringify(boughtList));
-    setThirdLeg(!thirdLeg);
-  }
-
   function deleteListElement(name) {
     const index = toBuyList.indexOf(name);
     boughtList.splice(index, 1);
@@ -42,6 +37,14 @@ export const ShoppingList: React.FC = () => {
     console.log(boughtList);
     AsyncStorage.setItem("toBuyList", JSON.stringify(toBuyList));
     AsyncStorage.setItem("boughtList", JSON.stringify(boughtList));
+  }
+  
+  function toggle(index) {
+    console.log("in toggle");
+    
+    boughtList[index]= !boughtList[index];
+    AsyncStorage.setItem("boughtList", JSON.stringify(boughtList));
+    setThirdLeg(!thirdLeg);
   }
 
   useEffect(() => {
@@ -72,7 +75,7 @@ export const ShoppingList: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Shopping list</Text>
+      <Text style={styles.title}>Список покупок</Text>
       <View>
         <TextInput
           style={styles.input}
